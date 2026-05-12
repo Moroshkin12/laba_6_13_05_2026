@@ -1,0 +1,99 @@
+#Matr3. Обратная матрица.
+#1. Дано число n. Сгенерировать матрицу A размера n⨯n со случайными
+#вещественными числами из набора {-1; 1}.
+#2. Проверить существования обратной матрицы А через определитель с
+#помощью функции numpy.linalg.det(А)
+#(если определитель равен нулю, матрицу сгенерировать повторно).
+#3. Найти обратную матрицу средствами библиотеки NumPy.
+#4. Средствами NumPy выделить второй столбец и третью строку
+#полученной матрицы.
+#5. Вывести на экран обратную матрицу , а также второй столбец и третью
+#строку на экран.
+
+
+
+import numpy as np
+
+def generate_matrix(n):
+    """Генерируем матрицу n×n со значениями -1 и 1 вещественными"""
+    while True:
+        matrix = np.random.uniform(low=-1.0, high=1.0, size=(n, n))
+        matrix = np.round(matrix, 4)
+        opredelitel = np.linalg.det(matrix)
+        if opredelitel != 0:
+            return matrix
+
+def get_determinant(matrix):
+    """Возвращает определитель матрицы."""
+    return np.round(np.linalg.det(matrix),4)
+
+def compute_inverse(matrix):
+    """Вычисляет обратную матрицу."""
+    return np.round(np.linalg.inv(matrix),4)
+
+def second_column(matrix):
+    """Извлекает второй столбец срезом"""
+    return matrix[:, 1]
+
+def third_row(matrix):
+    """Извлекает третью строку срезом"""
+    return matrix[2, :]
+
+def display_results(inverse_matrix, second_column, third_row):
+    """Выводит результаты на экран."""
+    print("\n" + "=" * 50)
+    print("РЕЗУЛЬТАТЫ:")
+    print("=" * 50)
+
+    print("\n1. Обратная матрица A⁻¹:")
+    print(inverse_matrix)
+
+    print("\n2. Второй столбец обратной матрицы:")
+    print(second_column)
+
+    print("\n3. Третья строка обратной матрицы:")
+    print(third_row)
+
+    print("\n" + "=" * 50)
+    print("Программа завершена успешно!")
+    print("=" * 50)
+
+def main():
+    print("=" * 50)
+    print("Программа для работы с матрицами (NumPy)")
+    print("=" * 50)
+
+    np.random.seed(42)
+
+    try:
+        n = int(input("Введите размерность матрицы n (целое положительное число): "))
+        if n <= 0:
+            print("Ошибка: размерность должна быть положительным целым числом!")
+            return
+
+        print("\n" "Шаг 1: Генерация матрицы размера",n,"×",n)
+        matrix_a = generate_matrix(n)
+        print("Матрица успешно сгенерирована:")
+        print(matrix_a)
+
+        det_a = get_determinant(matrix_a)
+        print("\nШаг 2: Определитель матрицы : ",det_a)
+        print("Матрица обратима (определитель не равен нулю).")
+
+        print("\nШаг 3: Вычисление обратной матрицы ")
+        matrix_a_inv = compute_inverse(matrix_a)
+        print("Обратная матрица успешно найдена.")
+
+        print("\nШаг 4: Извлечение данных из обратной матрицы...")
+        second_col = second_column(matrix_a_inv)
+        third_row = third_row(matrix_a_inv)
+
+        display_results(matrix_a_inv, second_col, third_row)
+
+    except ValueError:
+        print("Ошибка: введите целое число!")
+    except Exception as e:
+        print(f"Произошла непредвиденная ошибка: {e}")
+
+if __name__ == "__main__":
+    main()
